@@ -198,6 +198,8 @@ h2{font:600 clamp(32px,3.8vw,52px)/1.02 var(--disp);letter-spacing:-.035em;margi
 .more{display:inline-flex;align-items:center;gap:6px;margin-top:16px;background:none;border:0;padding:0;color:var(--gold);font:500 14px var(--ui);cursor:pointer}
 .more .icon{transition:transform .3s var(--spring)}
 .more:hover .icon{transform:translateY(3px)}
+.more.open .icon{transform:rotate(180deg)}
+.more.open:hover .icon{transform:rotate(180deg) translateY(3px)}
 
 .stars{display:inline-flex;gap:3px;vertical-align:middle}
 .star{width:15px;height:15px;stroke:rgba(255,255,255,.18);fill:none;stroke-width:1.75;stroke-linejoin:round}
@@ -1160,14 +1162,12 @@ function renderBoard(res){
       ? `${state.lg==="all"?"NBA and NHL players":LG[state.lg].name+" players"}, each against his own pre-launch level, ${state.rate==="p36"?"per 36 minutes (NBA)":"per game"}, ${winTxt}. Stars are relative: the biggest drops in this view get 6 stars, the smallest get 1.`
       : `${state.lg==="all"?"Teams across all three leagues":LG[state.lg].name+" teams"}, each against its own pre-launch level, ${winTxt}. Measured by win %. The biggest drops in this view get 6 stars.`;
     const levels = state.tier ? [state.tier] : [6,5,4,3,2,1];
-    const caps = state.tier ? {6:60,5:60,4:60,3:60,2:120,1:120} : {6:5,5:5,4:5,3:5,2:5,1:5};
+    LADDER = {};
     $("#ladder").innerHTML = levels.map(k=>{
-      const list = ranked.filter(r=>r.stars===k), shown = list.slice(0, caps[k]), extra = list.length - shown.length;
+      const list = ranked.filter(r=>r.stars===k); LADDER[k] = list;
       const head = `<div class="tier-head">${starsHTML(k)}<div class="tier-name">${TIERS[k]}</div><div class="tier-count">${list.length ? list.length+" "+(list.length>1?noun:noun.slice(0,-1)) : ""}</div></div>`;
       if(!list.length) return `<div class="tier t${k} none">${head}<div class="tier-body">Nobody at this level right now.</div></div>`;
-      let body = statTables(shown, {post:true, sortable:false});
-      if(extra>0) body += `<button class="more" data-t="${k}">${ic("down")}See all ${list.length} at ${k} star${k>1?"s":""}</button>`;
-      return `<div class="tier t${k}">${head}<div class="tier-body">${body}</div></div>`;
+      return `<div class="tier t${k}" data-k="${k}">${head}<div class="tier-body">${tierBody(k)}</div></div>`;
     }).join("");
   }
   // stars by league
@@ -1275,6 +1275,25 @@ function wantedCell(r){
 }
 function afterRange(){ return !state.w ? "Nov 19 on" : state.w===7 ? "Nov 19–25" : "Nov 19–Dec 2"; }
 /* rows: same kind and league; opts: {post:bool, sortable:bool} */
+let LADDER = {}; const OPEN = new Set();
+const TIER_PEEK = 5;
+function tierBody(k){
+  const list = LADDER[k] || [], all = k===6 || !!state.tier || OPEN.has(k) || list.length <= TIER_PEEK;
+  let body = statTables(all ? list : list.slice(0, TIER_PEEK), {post:true, sortable:false});
+  if(k!==6 && !state.tier && list.length > TIER_PEEK)
+    body += OPEN.has(k)
+      ? `<button class="more open" data-t="${k}" aria-expanded="true">${ic("down")}Show fewer</button>`
+      : `<button class="more" data-t="${k}" aria-expanded="false">${ic("down")}Show all ${list.length}</button>`;
+  return body;
+}
+function toggleTier(k){
+  OPEN.has(k) ? OPEN.delete(k) : OPEN.add(k);
+  const tile = document.querySelector(`#ladder .tier[data-k="${k}"]`); if(!tile) return;
+  const top = tile.getBoundingClientRect().top;
+  tile.querySelector(".tier-body").innerHTML = tierBody(k);
+  if(!OPEN.has(k)){ const d = tile.getBoundingClientRect().top - top; if(d) window.scrollBy(0, d); if(tile.getBoundingClientRect().top < 0) tile.scrollIntoView({block:"start"}); }
+}
+
 function statTable(rows, opts){
   const P = rows[0].kind==="player", d = mdef(rows[0]), n = d.labels.length;
   const unit = P && advOn(rows[0].lg) ? (rows[0].lg==="nba" ? "makes ÷ attempts" : "per game") : P && rows[0].use36 ? "per 36 min" : P ? "per game" : "";
@@ -1462,7 +1481,7 @@ function buildControls(){
   $("#scale2").innerHTML = [6,5,4,3,2,1,0].map(n=>`<div>${starsHTML(n)}<span>${TIERS[n]} <span style="color:var(--muted)">(${cut(n)})</span></span></div>`).join("");
   buildChips(); demoLabel(); buildDrawer(); wireDrawer();
   $("#meter").onclick = e=>{ const b=e.target.closest(".lvl"); if(b && !b.disabled) setTier(+b.dataset.t); };
-  $("#ladder").onclick = e=>{ const b=e.target.closest(".more"); if(b) setTier(+b.dataset.t); };
+  $("#ladder").onclick = e=>{ const b=e.target.closest(".more"); if(b){ e.preventDefault(); toggleTier(+b.dataset.t); } };
   $("#clearTier").onclick = ()=>{ state.tier=null; vt(render); };
   $("#lgChips").onclick = e=>{ const b=e.target.closest(".chip"); if(!b) return; state.lg=b.dataset.lg; state.tier=null; buildChips(); vt(render); };
   $("#fileChips").onclick = e=>{ const b=e.target.closest(".chip"); if(!b) return; state.lg=b.dataset.lg; state.tier=null; buildChips(); render(); };
