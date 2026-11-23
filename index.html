@@ -745,7 +745,7 @@ table.st{min-width:0;table-layout:auto}
           <div>
             <dl class="facts">
               <dt>Players covered</dt><dd>Anyone with enough work before launch: 100 plays for quarterbacks, 50 for running backs, 30 targets for receivers and tight ends</dd>
-              <dt>Before and after</dt><dd>Weeks 1–11 are before. Week 12, which started the night GTA VI came out, is the first week after.</dd>
+              <dt>Before and after</dt><dd>Weeks 1–10 are before. Week 11, which started the night GTA VI came out, is the first week after.</dd>
               <dt>Floors</dt><dd>0.10 EPA per play for players, since EPA can sit near zero. 30% wins for teams, so a 1–8 team losing one more game doesn't show up as a 100% collapse.</dd>
             </dl>
           </div>
@@ -995,11 +995,11 @@ function computePlayers(pdata, season, launch, now, W){
 
 /* ---------- NFL players: EPA per play, from nflverse weekly stats ----------
    EPA (expected points added) = how much each play changed the offense's expected points.
-   Row: [id, name, pos, team, week, plays, epa, yards]. Week 12 (starts Thu Nov 19) is the first week after launch.
+   Row: [id, name, pos, team, week, plays, epa, yards]. Week 11 (starts Thu Nov 19) is the first week after launch.
    Players need enough plays before launch to be listed (QB 100, RB 50, WR/TE 30), so a backup's three snaps can't top the board. */
 const NFL_TM = {LAR:"LA", JAX:"JAC", WSH:"WAS"};
 const NFL_MIN_PLAYS = {QB:100, RB:50, WR:30, TE:30}, NFL_FLOOR = 0.10;
-const weekStart = (L, wk, w0) => L + (wk - w0)*7*DAY;   // week 12 starts at launch, one week per 7 days
+const weekStart = (L, wk, w0) => L + (wk - w0)*7*DAY;   // week 11 starts at launch, one week per 7 days
 function nflAgg(rs){
   const g = rs.length, plays = rs.reduce((a,r)=>a+r[5],0), epa = rs.reduce((a,r)=>a+r[6],0), yds = rs.reduce((a,r)=>a+r[7],0);
   return {g, plays, m: plays ? epa/plays : 0, s:[epa/g, plays/g, yds/g], min:null, m36:null, sh:null};
@@ -1019,7 +1019,7 @@ function nflDemoRows(rows, w0){
   return rows.filter(r=>r[4] < w0).concat(out);
 }
 function nflRows(season, L, a1){
-  const w0 = NFLDATA.launch_week || 12;
+  const w0 = NFLDATA.launch_week || 11;
   let all = NFLDATA.rows || [];
   if(!all.length) return [];
   if(state.demo) all = nflDemoRows(all, w0);
