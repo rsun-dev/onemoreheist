@@ -673,7 +673,7 @@ table.st{min-width:0;table-layout:auto}
         <li>Everyone is measured against their own numbers, not against other players. "Before" is the season up to the night of November 18. "After" is every game from November 19 on.</li>
         <li>Each side's average comes from adding up the totals and dividing once, like total points over total games. That's how box-score averages are normally done, and it means a five-minute cameo doesn't count the same as a 40-minute night.</li>
         <li>The slump is how far the average fell, as a percentage of where it started. Going from 20 points a game to 15 is a 25% drop.</li>
-        <li>Stars are handed out relative to whoever you're looking at. Everyone who dropped gets ranked and split into six groups. The worst sixth gets six stars, the mildest sixth gets one. So if the biggest drop in the league is only 5%, that player still gets six stars.</li>
+        <li>Stars are handed out within each sport. Everyone in a league who dropped gets ranked and split into six groups. The worst sixth gets six stars, the mildest sixth gets one. So if the biggest drop in a league is only 5%, that player still gets six stars.</li>
         <li>Early on, one bad game can land someone at the top of the list. That's on purpose. Use Week 1 or Weeks 1–2 if you want to look at a set window.</li>
       </ol>
       <div class="tldr-grid">
@@ -760,7 +760,7 @@ table.st{min-width:0;table-layout:auto}
       <ul>
         <li>Nobody can actually tell whether a player is playing GTA. Injuries, trades, a brutal road trip or a hot start cooling off can all look the same in the numbers.</li>
         <li>The first few days will be noisy. After one or two games almost anyone can look like they've fallen apart. It evens out as more games come in.</li>
-        <li>Because stars are relative, they change with what you're looking at. A player might have four stars when you're viewing everyone and five when you filter to just the NBA.</li>
+        <li>Stars are ranked within each sport, so an NBA player is only compared with other NBA players. His stars are the same whether you're viewing everyone or just the NBA.</li>
         <li>The "before" numbers stop updating at launch. They're this season through November 18, not last season.</li>
         <li>Scores, standings and box scores come from Sportradar. Season player stats come from Basketball-Reference, Hockey-Reference and nflverse. Everything updates each morning around 5am Eastern.</li>
       </ul>
@@ -793,7 +793,7 @@ const BOX_LGS = ["nba","nhl"];            // leagues whose players come from gam
    1. Before = season average up to launch. After = average of every game since launch.
       Averages come from totals (total ÷ games, or ÷ minutes for NBA per 36), never an average of averages.
    2. Slump % = (before − after) ÷ before. "before" is floored so tiny baselines can't explode the %.
-   3. Stars are relative: everyone in the current view who dropped is ranked and split into six equal groups.
+   3. Stars are relative within each sport: everyone in a league who dropped is ranked and split into six equal groups.
       The worst sixth gets 6 stars, the mildest sixth gets 1. Anyone who didn't drop has a clean record. */
 const PCFG = {
   nba:{metric:"Game Score", line:"PTS / REB / AST", sd:7, keyMin:8, dec:1, floorPG:4, floor36:6},
@@ -1102,15 +1102,15 @@ function noPlayerData(){ return isP() && state.lg!=="all" && !PLAYER_LGS.include
 
 /* Players: stars come from fixed slump-% cutoffs (set in computePlayers).
    Teams: stars on a curve, biggest drop in view = 6, smallest drop = 1, linear in between. */
-/* Relative stars: rank everyone in view who dropped, split into six equal groups. Ties share a group. */
+/* Relative stars, ranked within each sport: everyone in a league who dropped is split into six equal groups.
+   Ties share a group. A player's stars stay the same whichever sport filter is on. */
 function assignStars(rows){
   for(const r of rows) r.stars = r.pct==null ? null : 0;
-  const pool = rows.filter(r=>inView(r) && r.pct!=null && r.pct>0).sort((a,b)=>b.pct-a.pct);
-  const n = pool.length; let prev = null, prevStars = 6;
-  pool.forEach((r,i)=>{ const st = r.pct===prev ? prevStars : 6 - Math.floor(i*6/n); r.stars = st; prev = r.pct; prevStars = st; });
-  // rows outside the current view still get a value relative to the in-view ranking
-  for(const r of rows) if(r.stars===0 && r.pct>0 && !inView(r)){
-    const better = pool.filter(p=>p.pct>=r.pct).length; r.stars = n ? 6 - Math.min(5, Math.floor(Math.max(0,better-1)*6/n)) : 6;
+  const by = {};
+  rows.forEach(r=>{ if(r.pct!=null && r.pct>0) (by[r.lg] ||= []).push(r); });
+  for(const lg in by){
+    const pool = by[lg].sort((a,b)=>b.pct-a.pct), n = pool.length; let prev = null, prevStars = 6;
+    pool.forEach((r,i)=>{ const st = r.pct===prev ? prevStars : 6 - Math.floor(i*6/n); r.stars = st; prev = r.pct; prevStars = st; });
   }
 }
 
@@ -1160,8 +1160,8 @@ function renderBoard(res){
     $("#ladder").innerHTML = `<div class="empty">${ic("search")}<h4>Nobody has fallen off here</h4><p>No ${noun} in this view are playing below their season average yet. Try another league or turn off "Key players only."</p></div>`;
   } else {
     $("#boardSub").textContent = P
-      ? `${state.lg==="all"?"NBA and NHL players":LG[state.lg].name+" players"}, each against his own pre-launch level, ${state.rate==="p36"?"per 36 minutes (NBA)":"per game"}, ${winTxt}. Stars are relative: the biggest drops in this view get 6 stars, the smallest get 1.`
-      : `${state.lg==="all"?"Teams across all three leagues":LG[state.lg].name+" teams"}, each against its own pre-launch level, ${winTxt}. Measured by win %. The biggest drops in this view get 6 stars.`;
+      ? `${state.lg==="all"?"NBA, NFL and NHL players":LG[state.lg].name+" players"}, each against his own pre-launch level, ${state.rate==="p36"?"per 36 minutes (NBA)":"per game"}, ${winTxt}. Stars are relative within each sport: the biggest drops in each league get 6 stars, the smallest get 1.`
+      : `${state.lg==="all"?"Teams across all three leagues":LG[state.lg].name+" teams"}, each against its own pre-launch level, ${winTxt}. Measured by win %. The biggest drops in each league get 6 stars.`;
     const levels = state.tier ? [state.tier] : [6,5,4,3,2,1];
     LADDER = {};
     $("#ladder").innerHTML = levels.map(k=>{
