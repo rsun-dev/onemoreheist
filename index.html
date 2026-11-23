@@ -376,6 +376,34 @@ a.logo{text-decoration:none}
 .dfix{margin:0;font:400 13px var(--mono);color:var(--text)}
 .dtoggle{color:var(--text)}
 .dreset{margin-top:10px;width:100%;justify-content:center}
+.dwarn{display:flex;gap:10px;margin:14px 0 4px;padding:12px 14px;border-radius:6px;background:rgba(255,141,77,.1);box-shadow:inset 0 0 0 1px rgba(255,141,77,.35);font-size:13px;line-height:1.5;color:#E9DCE6}
+.dwarn .icon{flex:none;width:16px;height:16px;margin-top:2px;color:var(--gold)}
+.dwarn b{color:var(--text)}
+.wsub{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:18px 0 4px}
+.wsub .dl{margin:0}
+.wlink{background:none;border:0;padding:0;color:var(--gold);font:500 12.5px var(--ui);cursor:pointer}
+.wlink[disabled]{color:var(--dim);cursor:default}
+.wgrp{margin:12px 0 0;padding:12px 12px 4px;border-radius:6px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line)}
+.wgh{display:flex;justify-content:space-between;gap:8px;font:500 12.5px var(--ui);color:var(--muted);margin-bottom:10px}
+.wgh span{font:400 12px var(--mono);color:var(--dim);white-space:nowrap}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) 68px;align-items:center;gap:6px 10px;margin-bottom:12px}
+.wrow label{font-size:13.5px;color:var(--text);min-width:0}
+.wrow input[type=number]{width:68px;box-sizing:border-box;padding:6px 8px;border:0;border-radius:6px;background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px var(--line2);color:var(--text);font:400 13px var(--mono);text-align:right}
+.wrow input[type=number]:focus{outline:2px solid rgba(255,141,77,.7);outline-offset:1px}
+.wrow input[type=range]{grid-column:1 / -1;width:100%;margin:0;accent-color:#FF8D4D;cursor:pointer}
+.wrow.chg label::after{content:" •";color:var(--gold)}
+.wgh b{font-weight:500;color:var(--text)}
+.wgrp.bad{box-shadow:inset 0 0 0 1px rgba(255,92,92,.7);background:rgba(255,92,92,.06)}
+.wgrp.bad .wgh b{color:#FF7A7A}
+.whint{margin:-4px 0 12px;font-size:12.5px;line-height:1.45;color:var(--dim)}
+.werr{margin:0 0 12px;padding:8px 10px;border-radius:6px;background:rgba(255,92,92,.12);color:#FFB3B3;font-size:12.5px;line-height:1.45}
+.werr[hidden]{display:none}
+.dfoot p.err{color:#FF9A9A}
+.wform{margin:6px 0 0;font:400 12px/1.5 var(--mono);color:var(--muted);word-break:break-word}
+.dfoot{position:sticky;bottom:-32px;margin:18px -26px -32px;padding:14px 26px 20px;background:#120E18;box-shadow:0 -1px 0 var(--line2),0 -18px 30px -12px rgba(0,0,0,.6);z-index:2}
+.dfoot .btn{width:100%;justify-content:center}
+.dfoot .btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.dfoot p{margin:8px 0 0;font-size:12.5px;color:var(--dim);text-align:center}
 /* ---------- CTA + how page ---------- */
 a.cta{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;text-decoration:none;padding:28px 30px;border-radius:6px;background:linear-gradient(110deg,rgba(255,79,154,.12),rgba(255,141,77,.06) 60%,rgba(255,255,255,.02));box-shadow:inset 0 0 0 1px rgba(255,141,77,.25);transition:transform .4s var(--spring)}
 a.cta:hover{transform:translateY(-3px)}
@@ -421,6 +449,7 @@ a.cta p{margin:0;color:var(--muted);max-width:64ch}
   .steps li{padding:16px 16px 16px 56px}
   .sport{padding:22px 20px}
   .drawer{padding:20px 18px 28px}
+  .dfoot{bottom:-28px;margin:18px -18px -28px;padding:14px 18px 18px}
 }
 
 
@@ -599,6 +628,12 @@ table.st{min-width:0;table-layout:auto}
   <button onclick="document.getElementById('demoBtn').click()">Back to real data</button>
 </div></div>
 
+<div class="banner" id="customBanner"><div class="wrap">
+  <svg class="icon" viewBox="0 0 24 24"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+  <span id="customTxt"></span>
+  <button id="customReset">Back to standard scoring</button>
+</div></div>
+
 <nav class="controls" aria-label="Filters">
   <div class="wrap">
     <div class="seg" id="viewSeg" role="group" aria-label="View">
@@ -761,6 +796,7 @@ table.st{min-width:0;table-layout:auto}
         <li>Nobody can actually tell whether a player is playing GTA. Injuries, trades, a brutal road trip or a hot start cooling off can all look the same in the numbers.</li>
         <li>The first few days will be noisy. After one or two games almost anyone can look like they've fallen apart. It evens out as more games come in.</li>
         <li>Stars are ranked within each sport, so an NBA player is only compared with other NBA players. His stars are the same whether you're viewing everyone or just the NBA.</li>
+        <li>You can change how players are scored in Adjust metrics. Each sport's stats are weighted in groups with a fixed total. In a group of two, the other weight fills in the rest: set offensive rebounds to 0.85 and defensive rebounds become 0.15. In bigger groups nothing moves on its own; you set each weight, and the group has to add up to its total before Apply will work. Press Apply and the whole page is re-scored with your weights. They're saved only in your browser, and "Back to standard scoring" undoes them.</li>
         <li>The "before" numbers stop updating at launch. They're this season through November 18, not last season.</li>
         <li>Scores, standings and box scores come from Sportradar. Season player stats come from Basketball-Reference, Hockey-Reference and nflverse. Everything updates each morning around 5am Eastern.</li>
       </ul>
@@ -772,9 +808,12 @@ table.st{min-width:0;table-layout:auto}
 <div class="scrim" id="scrim" hidden></div>
 <aside class="drawer" id="drawer" aria-label="Adjust metrics" aria-hidden="true" inert>
   <div class="dh"><h2>Adjust metrics</h2><button class="dx" id="drawerX" aria-label="Close"><svg class="icon" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
-  <p class="dsub">Changes apply right away. <a href="#how-it-works">How it works</a> explains each one.</p>
+  <div class="dwarn" role="note"><svg class="icon" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+    <span><b>Changing the weights changes the scoring.</b> The defaults are the standard formulas: Hollinger's Game Score for the NBA, Impact for the NHL and nflverse EPA for the NFL. With your own weights, every score, ranking and star on the page follows your formula, so the results aren't official stats or the site's verdict. Your changes are saved only in this browser, and nobody else sees them.</span></div>
+  <p class="dsub">View options apply right away. Scoring weights apply when you press Apply. <a href="#how-it-works">How it works</a> explains each one.</p>
   <div id="drawerBody"></div>
-  <button class="btn btn-line dreset" id="adjReset">Reset to defaults</button>
+  <button class="btn btn-line dreset" id="adjReset">Reset everything to defaults</button>
+  <div class="dfoot"><button class="btn" id="wApply" disabled>Apply scoring changes</button><p id="wNote">No scoring changes yet.</p></div>
 </aside>
 
 <footer><div class="wrap"><p id="foot">Loading sources…</p></div></footer>
@@ -811,8 +850,59 @@ const SPORT_ORDER = ["basketball","football","hockey"];
 const DEFAULTS = {rate:"p36", advNba:false, advNhl:false};
 const advOn = lg => lg==="nba" ? state.advNba : lg==="nhl" ? state.advNhl : false;
 
+/* ---------- scoring weights (Adjust metrics) ----------
+   Every player score is a weighted sum of box-score stats. Weights sit in groups with a fixed total,
+   so raising one weight lowers the others in its group (OREB 0.85 makes DREB 0.15).
+   The defaults reproduce the standard formulas exactly. Custom weights only live in this browser. */
+const WGROUPS = {
+  nba:[
+    {id:"reb",   name:"Rebounds",  sign:1,  items:[["oreb","Offensive rebounds",0.7],["dreb","Defensive rebounds",0.3]]},
+    {id:"plus",  name:"Credit",    sign:1,  items:[["pts","Points",1],["fgm","Field goals made",0.4],["ast","Assists",0.7],["stl","Steals",1],["blk","Blocks",0.7]]},
+    {id:"minus", name:"Penalties", sign:-1, items:[["fga","Field goal attempts",0.7],["ftx","Missed free throws",0.4],["pf","Personal fouls",0.4],["tov","Turnovers",1]]}
+  ],
+  nhl:[{id:"sk", name:"Skater score", sign:1, items:[["g","Goals",1],["a","Assists",0.7],["s","Shots on goal",0.1]]}],
+  nfl:[{id:"epa", name:"Where the EPA comes from", sign:1, items:[["pass","Passing EPA",1],["rush","Rushing EPA",1],["rec","Receiving EPA",1]]}]
+};
+const WABBR = {oreb:"OREB",dreb:"DREB",pts:"PTS",fgm:"FGM",ast:"AST",stl:"STL",blk:"BLK",fga:"FGA",ftx:"(FTA − FTM)",pf:"PF",tov:"TOV",g:"G",a:"A",s:"SOG",pass:"pass EPA",rush:"rush EPA",rec:"rec EPA"};
+const groupTotal = g => +g.items.reduce((a,i)=>a+i[2],0).toFixed(2);
+function defaultWeights(){ const o = {}; for(const lg in WGROUPS){ o[lg] = {}; for(const g of WGROUPS[lg]) for(const [k,,v] of g.items) o[lg][k] = v; } return o; }
+const cloneW = w => JSON.parse(JSON.stringify(w));
+const WKEY = "omh_weights_v1";
+function loadWeights(){
+  const d = defaultWeights();
+  try{
+    const s = JSON.parse(localStorage.getItem(WKEY) || "null");
+    if(s) for(const lg in d) for(const k in d[lg]) if(s[lg] && typeof s[lg][k]==="number" && isFinite(s[lg][k])) d[lg][k] = s[lg][k];
+    for(const lg in WGROUPS) for(const g of WGROUPS[lg]){   // a saved set that no longer adds up is thrown away
+      if(Math.abs(g.items.reduce((a,[k])=>a+d[lg][k],0) - groupTotal(g)) > 0.011){ for(const [k,,v] of g.items) d[lg][k] = v; }
+    }
+  }catch(e){}
+  return d;
+}
+function saveWeights(w){ try{ localStorage.setItem(WKEY, JSON.stringify(w)); }catch(e){} }
+const sameW = (a, b, lg) => Object.keys(a[lg]).every(k=>Math.abs(a[lg][k]-b[lg][k]) < 0.005);
+const DEFW = defaultWeights();
+const isCustom = lg => !!WGROUPS[lg] && !sameW(state.wts, DEFW, lg);
+/* NBA score from components. c = {pts,fgm,fga,ftm,fta,oreb,dreb,stl,ast,blk,pf,tov} */
+function nbaScore(c){
+  const w = state.wts.nba;
+  return w.pts*c.pts + w.fgm*c.fgm - w.fga*c.fga - w.ftx*(c.fta - c.ftm) + w.oreb*c.oreb + w.dreb*c.dreb
+       + w.stl*c.stl + w.ast*c.ast + w.blk*c.blk - w.pf*c.pf - w.tov*c.tov;
+}
+const nhlScore = (g, a, s) => { const w = state.wts.nhl; return w.g*g + w.a*a + w.s*s; };
+function formulaText(lg, w){
+  const f = v => (+v.toFixed(2)).toString();
+  const parts = [];
+  for(const g of WGROUPS[lg]) for(const [k] of g.items){
+    const v = w[lg][k]; if(Math.abs(v) < 0.005) continue;
+    parts.push({neg:g.sign<0, t:(Math.abs(v-1)<0.005 ? "" : f(v)+"·") + WABBR[k]});
+  }
+  if(!parts.length) return "0";
+  return parts.map((p,i)=> (i===0 ? (p.neg?"− ":"") : (p.neg?" − ":" + ")) + p.t).join("");
+}
+
 const STAR_CUTS = [0, 4, 8, 14, 22, 32];   // slump % needed for 1..6 stars
-const state = {view:"players", w:0, lg:"all", demo:false, sort:null, dir:-1, q:"", tier:null, rate:DEFAULTS.rate, advNba:false, advNhl:false};
+const state = {view:"players", w:0, lg:"all", demo:false, sort:null, dir:-1, q:"", tier:null, rate:DEFAULTS.rate, advNba:false, advNhl:false, wts:loadWeights()};
 let REAL = null, DATA = null, PREAL = null, PDATA = null, SEASON = {players:{},teams:{}}, SBASE = {}, NFLDATA = {snaps:[]};
 
 /* ---------- helpers ---------- */
@@ -897,7 +987,7 @@ function computeTeams(data, season, now, W){
 
 /* ---------- player computation ---------- */
 function playerLogs(pdata){
-  const logs = {}, teamGames = {};
+  const logs = {}, teamGames = {}, cNba = isCustom("nba");
   for(const G of pdata.games){
     const [lg, ts, h, a] = G.k.split("|");
     if(!BOX_LGS.includes(lg)) continue;
@@ -906,7 +996,10 @@ function playerLogs(pdata){
     for(const p of G.p){
       const [team, name, pos] = p;
       if(pos==="G" && lg==="nhl") continue;
-      const m = lg==="nba" ? p[9] : p[3]+0.7*p[4]+0.1*p[5];
+      // NBA rows: [team, name, pos, pts, reb, ast, stl, blk, tov, gs, min, fgm, fga, 3pm, 3pa, ftm, fta, oreb, dreb, pf]
+      const m = lg==="nba"
+        ? (cNba && p[19]!=null ? nbaScore({pts:p[3], ast:p[5], stl:p[6], blk:p[7], tov:p[8], fgm:p[11], fga:p[12], ftm:p[15], fta:p[16], oreb:p[17], dreb:p[18], pf:p[19]}) : p[9])
+        : nhlScore(p[3], p[4], p[5]);
       const s = [p[3],p[4],p[5]];
       // NBA rows may carry estimated minutes and shooting: [.., gs, min, fgm, fga, 3pm, 3pa, ftm, fta]
       const min = lg==="nba" && p[10]!=null ? p[10] : null;
@@ -955,13 +1048,16 @@ function starsFor(pct){ if(pct<=0) return 0; let s = 0; for(const c of STAR_CUTS
 function computePlayers(pdata, season, launch, now, W){
   const L = Date.parse(launch), [a0,a1] = postRange(L, now, W);
   const logs = playerLogs(pdata);
-  const base = {};
+  const base = {}, cNba = isCustom("nba");
   for(const lg of BOX_LGS) for(const r of (season.players||{})[lg]||[]){
-    // nba: [name, team, G, gs, pts, reb, ast, min, fgm, fga, 3pm, 3pa, ftm, fta] (per game)
+    // nba: [name, team, G, gs, pts, reb, ast, min, fgm, fga, 3pm, 3pa, ftm, fta, oreb, dreb, stl, blk, tov, pf] (per game)
     // nhl: [name, team, GP, impact, g, a, s]
     const min = lg==="nba" && r[7]>0 ? r[7] : null, s = [r[4],r[5],r[6]];
-    base[lg+"|"+normName(r[0])] = {lg, name:r[0], team:r[1], pre:{g:r[2], m:r[3], s, min,
-      m36: per36(r[3], min), s36: min ? s.map(v=>per36(v,min)) : null,
+    const m = lg==="nba"
+      ? (cNba && r[19]!=null ? nbaScore({pts:r[4], ast:r[6], fgm:r[8], fga:r[9], ftm:r[12], fta:r[13], oreb:r[14], dreb:r[15], stl:r[16], blk:r[17], tov:r[18], pf:r[19]}) : r[3])
+      : nhlScore(r[4], r[5], r[6]);
+    base[lg+"|"+normName(r[0])] = {lg, name:r[0], team:r[1], pre:{g:r[2], m, s, min,
+      m36: per36(m, min), s36: min ? s.map(v=>per36(v,min)) : null,
       sh: lg==="nba" && r[13]!=null ? r.slice(8,14) : null}};
   }
   const keys = new Set([...Object.keys(logs), ...Object.keys(base)]);
@@ -995,13 +1091,18 @@ function computePlayers(pdata, season, launch, now, W){
 
 /* ---------- NFL players: EPA per play, from nflverse weekly stats ----------
    EPA (expected points added) = how much each play changed the offense's expected points.
-   Row: [id, name, pos, team, week, plays, epa, yards]. Week 11 (starts Thu Nov 19) is the first week after launch.
+   Row: [id, name, pos, team, week, plays, epa, yards, pass_epa, rush_epa, rec_epa]. Week 11 (starts Thu Nov 19) is the first week after launch.
    Players need enough plays before launch to be listed (QB 100, RB 50, WR/TE 30), so a backup's three snaps can't top the board. */
 const NFL_TM = {LAR:"LA", JAX:"JAC", WSH:"WAS"};
 const NFL_MIN_PLAYS = {QB:100, RB:50, WR:30, TE:30}, NFL_FLOOR = 0.10;
 const weekStart = (L, wk, w0) => L + (wk - w0)*7*DAY;   // week 11 starts at launch, one week per 7 days
+/* EPA for one player-week. Custom weights mix passing, rushing and receiving EPA (row indexes 8, 9, 10). */
+function nflEpa(r){
+  if(!isCustom("nfl") || r[8]==null) return r[6];
+  const w = state.wts.nfl; return w.pass*r[8] + w.rush*r[9] + w.rec*r[10];
+}
 function nflAgg(rs){
-  const g = rs.length, plays = rs.reduce((a,r)=>a+r[5],0), epa = rs.reduce((a,r)=>a+r[6],0), yds = rs.reduce((a,r)=>a+r[7],0);
+  const g = rs.length, plays = rs.reduce((a,r)=>a+r[5],0), epa = rs.reduce((a,r)=>a+nflEpa(r),0), yds = rs.reduce((a,r)=>a+r[7],0);
   return {g, plays, m: plays ? epa/plays : 0, s:[epa/g, plays/g, yds/g], min:null, m36:null, sh:null};
 }
 function nflDemoRows(rows, w0){
@@ -1013,7 +1114,9 @@ function nflDemoRows(rows, w0){
     for(const wk of [w0, w0+1]){
       const plays = Math.max(1, Math.round(avg(5)*(0.8 + R()*0.4)));
       const epaPP = avg(6)/Math.max(1,avg(5)) - f*0.08 + (R()-0.5)*0.12;
-      out.push([id, last[1], last[2], last[3], wk, plays, +(epaPP*plays).toFixed(2), Math.round(avg(7)*(1 - f*0.15))]);
+      const e = +(epaPP*plays).toFixed(2), sp = rs.reduce((a,r)=>a+Math.abs(r[8]||0)+Math.abs(r[9]||0)+Math.abs(r[10]||0),0) || 1;
+      const part = i => +(e*rs.reduce((a,r)=>a+Math.abs(r[i]||0),0)/sp).toFixed(2);
+      out.push([id, last[1], last[2], last[3], wk, plays, e, Math.round(avg(7)*(1 - f*0.15)), part(8), part(9), part(10)]);
     }
   }
   return rows.filter(r=>r[4] < w0).concat(out);
@@ -1084,6 +1187,8 @@ function makeDemoPlayers(real, launch){
         const fgm = Math.round(fga*pct), tpa = Math.round(fga*0.38), tpm = Math.min(tpa, Math.round(fgm*0.35));
         const fta = Math.max(0, Math.round((sb && sb[13] ? sb[13] : 2)*(1 + j()*0.6))), ftm = Math.round(fta*0.78);
         r[3] = 2*fgm + tpm + ftm; r.length = 10; r.push(min, fgm, fga, tpm, tpa, ftm, fta);
+        const sbo = sb && sb[14]!=null && (sb[14]+sb[15])>0 ? sb[14]/(sb[14]+sb[15]) : 0.22, ob = Math.round(r[4]*sbo);
+        r.push(ob, r[4]-ob, sb && sb[19]!=null ? Math.round(sb[19]*(0.6 + R()*0.8)) : 2);
       } else {
         r[3]= f>0.8 ? 0 : row[3]; r[4]= f>1.2 ? 0 : row[4];
         r[5]=Math.max(0, Math.round(row[5] - f*1.3 + j()*2)); r[6]=r[3]+r[4];
@@ -1217,9 +1322,13 @@ const ADV = {
 function mdef(r){
   if(r.kind==="team") return SPORTS[r.sport].ppg ? {labels:['<span class="tip" tabindex="0" data-tip="Points per game, the same points as the league table: 3 for a win, 1 for a draw, 0 for a loss.">Pts/game</span>'], dec:[2], pct:[0]} : {labels:["Win %"], dec:[0], pct:[1]};
   if(advOn(r.lg)) return ADV[r.lg];
-  if(r.lg==="nfl") return {labels:['<span class="tip" tabindex="0" data-tip="Expected points added per play. Every play changes how many points the offense can expect to score on that drive; EPA measures that change. Above 0 means a player makes his plays better than an average play; a strong QB is around +0.15.">EPA/play</span>','<span class="tip" tabindex="0" data-tip="Total expected points added per game: EPA per play times how many plays he was involved in.">EPA/game</span>','<span class="tip" tabindex="0" data-tip="Plays he was part of per game: pass attempts, sacks taken, carries and targets.">Plays</span>',"Yards"], dec:[2,1,1,0]};
-  return r.lg==="nba" ? {labels:['<span class="tip" tabindex="0" data-tip="Game Score rolls a whole night into one number: points, shooting efficiency, rebounds, assists, steals, blocks, fouls and turnovers. A solid starter is around 10 a game; a star night is 25+.">Game Score</span>',"PTS","REB","AST"], dec:[1,1,1,1]}
-                      : {labels:['<span class="tip" tabindex="0" data-tip="Impact = goals + 0.7 × assists + 0.1 × shots on goal, per game. Shots count a little so a player who keeps shooting gets credit even when the puck won’t go in.">Impact</span>',"G","A","SOG"], dec:[2,2,2,2]};
+  if(r.lg==="nfl") return {labels:[isCustom("nfl") ? `<span class="tip" tabindex="0" data-tip="Your custom weights: (${esc(formulaText("nfl", state.wts))}) ÷ plays. Change or reset them in Adjust metrics.">EPA/play*</span>` : '<span class="tip" tabindex="0" data-tip="Expected points added per play. Every play changes how many points the offense can expect to score on that drive; EPA measures that change. Above 0 means a player makes his plays better than an average play; a strong QB is around +0.15.">EPA/play</span>','<span class="tip" tabindex="0" data-tip="Total expected points added per game: EPA per play times how many plays he was involved in.">EPA/game</span>','<span class="tip" tabindex="0" data-tip="Plays he was part of per game: pass attempts, sacks taken, carries and targets.">Plays</span>',"Yards"], dec:[2,1,1,0]};
+  if(r.lg==="nba") return {labels:[isCustom("nba")
+      ? `<span class="tip" tabindex="0" data-tip="Your custom weights: ${esc(formulaText("nba", state.wts))}. Change or reset them in Adjust metrics.">Game Score*</span>`
+      : '<span class="tip" tabindex="0" data-tip="Game Score rolls a whole night into one number: points, shooting efficiency, rebounds, assists, steals, blocks, fouls and turnovers. A solid starter is around 10 a game; a star night is 25+.">Game Score</span>',"PTS","REB","AST"], dec:[1,1,1,1]};
+  return {labels:[isCustom("nhl")
+      ? `<span class="tip" tabindex="0" data-tip="Your custom weights: ${esc(formulaText("nhl", state.wts))}, per game. Change or reset them in Adjust metrics.">Impact*</span>`
+      : '<span class="tip" tabindex="0" data-tip="Impact = goals + 0.7 × assists + 0.1 × shots on goal, per game. Shots count a little so a player who keeps shooting gets credit even when the puck won’t go in.">Impact</span>',"G","A","SOG"], dec:[2,2,2,2]};
 }
 function withMetrics(r){
   if(r.kind==="team"){
@@ -1409,19 +1518,112 @@ function demoLabel(){ $("#demoBtn").innerHTML = state.demo ? `${ic("refresh")}<s
 function segHTML(name, opts, cur){
   return `<div class="seg dseg" data-k="${name}">${opts.map(([v,l])=>`<button data-v="${v}" class="${v===cur?"on":""}" aria-pressed="${v===cur}">${l}</button>`).join("")}</div>`;
 }
+let DRAFT = null;   // weights being edited in the drawer, applied with the Apply button
+const fmtW = v => (Math.round(v*100)/100).toFixed(2);
+function weightsHTML(lg){
+  const groups = WGROUPS[lg].map(g=>{
+    const T = groupTotal(g), many = g.items.length > 1;
+    const rows = g.items.map(([k, label])=>{
+      const v = DRAFT[lg][k], id = `w-${lg}-${k}`, chg = Math.abs(v - DEFW[lg][k]) >= 0.005;
+      return `<div class="wrow${chg?" chg":""}" data-lg="${lg}" data-g="${g.id}" data-k="${k}">
+        <label for="${id}">${label}</label>
+        <input type="number" id="${id}" min="0" max="${T}" step="0.01" value="${fmtW(v)}" inputmode="decimal" aria-describedby="wg-${lg}-${g.id}">
+        <input type="range" min="0" max="${T}" step="0.01" value="${v}" aria-label="${label} weight">
+      </div>`;
+    }).join("");
+    const pair = g.items.length === 2;
+    const head = !many ? "" : pair ? `adds up to ${fmtW(T)}` : `<b data-wsum="${lg}-${g.id}">${fmtW(groupSum(DRAFT, lg, g))}</b> of ${fmtW(T)}`;
+    const hint = many && !pair ? `<p class="whint">These ${g.items.length} weights must add up to ${fmtW(T)}. Change them one at a time; nothing moves on its own.</p>` : "";
+    return `<div class="wgrp" data-wgrp="${lg}-${g.id}"><div class="wgh" id="wg-${lg}-${g.id}">${g.name}${g.sign<0?" (taken away)":""}<span>${head}</span></div>${hint}${rows}<p class="werr" role="alert" data-werr="${lg}-${g.id}" hidden></p></div>`;
+  }).join("");
+  const draftOff = !sameW(DRAFT, DEFW, lg);
+  return `<div class="wsub"><div class="dl">Scoring weights</div><button class="wlink" data-wreset="${lg}"${draftOff?"":" disabled"}>Reset ${LG[lg].name} weights</button></div>${groups}
+    <p class="wform" data-wform="${lg}">${lg==="nfl" ? "EPA/play = (" + formulaText(lg, DRAFT) + ") ÷ plays" : (lg==="nba" ? "Game Score = " : "Impact = ") + formulaText(lg, DRAFT)}</p>`;
+}
 function buildDrawer(){
+  if(!DRAFT) DRAFT = cloneW(state.wts);
   const toggle = (k, label, help) => `<div class="drow"><label class="toggle dtoggle"><input type="checkbox" data-k="${k}"${state[k]?" checked":""}> ${label}</label><p class="dhelp">${help}</p></div>`;
   const sec = (sp, inner) => `<section class="ds"><h3>${SPORTS[sp].name} <span>${SPORTS[sp].lgs}</span></h3>${inner}</section>`;
   $("#drawerBody").innerHTML =
     sec("basketball",
       `<div class="drow"><div class="dl">Player stats</div>${segHTML("rate", [["p36","Per 36 min"],["pg","Per game"]], state.rate)}<p class="dhelp">${state.rate==="p36"?"Fair view: what he does with his minutes, so a smaller role doesn't count as a slump.":"Box score view: plain per-game numbers, like on TV."}</p></div>`
-      + toggle("advNba", "Advanced: shooting", "FG%, 3P%, FT% and true shooting, from total makes ÷ attempts."))
-    + sec("hockey", `<div class="drow"><div class="dl">Skater score</div><p class="dfix">Impact per game = goals + 0.7 × assists + 0.1 × shots</p></div>`
-      + toggle("advNhl", "Advanced: shooting", "Shooting % (goals ÷ shots on goal) and points per game."))
-    + sec("football", `<div class="drow"><div class="dl">Player score</div><p class="dfix">EPA per play (expected points added)</p></div><div class="drow"><div class="dl">Team score</div><p class="dfix">Win %, a tie counts as half a win</p></div>`)
+      + toggle("advNba", "Advanced: shooting", "FG%, 3P%, FT% and true shooting, from total makes ÷ attempts.")
+      + weightsHTML("nba")
+      + `<p class="dhelp">Before Nov 23, after-launch box scores didn't split offensive and defensive rebounds or count fouls, so for those games the split comes from each player's own pre-launch numbers. With the default weights this makes no difference.</p>`)
+    + sec("hockey", toggle("advNhl", "Advanced: shooting", "Shooting % (goals ÷ shots on goal) and points per game.") + weightsHTML("nhl"))
+    + sec("football", weightsHTML("nfl") + `<p class="dhelp">Each player's weighted EPA is divided by his plays. Teams in every sport are always ranked by win % (a tie counts as half a win).</p>`)
 ;
-  const n = (state.rate!==DEFAULTS.rate) + state.advNba + state.advNhl;
+  for(const lg in WGROUPS) for(const g of WGROUPS[lg]) syncGroup(lg, g.id);
+  const n = (state.rate!==DEFAULTS.rate) + state.advNba + state.advNhl + Object.keys(WGROUPS).filter(isCustom).length;
   $("#adjN").textContent = n ? n : ""; $("#adjN").classList.toggle("show", !!n);
+  updateApply();
+}
+const groupSum = (w, lg, g) => Math.round(g.items.reduce((a,[k])=>a+w[lg][k],0)*100)/100;
+/* Groups that don't add up to their total. Only groups of three or more can be off: pairs rebalance themselves. */
+function badGroups(w){
+  const out = [];
+  for(const lg in WGROUPS) for(const g of WGROUPS[lg]){
+    const sum = groupSum(w, lg, g), T = groupTotal(g);
+    if(Math.abs(sum - T) >= 0.005) out.push({lg, g, sum, T});
+  }
+  return out;
+}
+/* Set one weight. In a pair the other weight takes the rest (OREB 0.85 makes DREB 0.15).
+   In bigger groups nothing else moves: the person has to make the group add up, and Apply waits until it does. */
+function setWeight(lg, gid, key, v){
+  const g = WGROUPS[lg].find(x=>x.id===gid), T = groupTotal(g), d = DRAFT[lg];
+  v = Math.min(T, Math.max(0, Math.round((isFinite(v) ? v : d[key])*100)/100));
+  const others = g.items.map(i=>i[0]).filter(k=>k!==key);
+  if(others.length !== 1){ d[key] = v; return; }
+  const rest = others.reduce((a,k)=>a+d[k],0), left = T - v;
+  others.forEach(k=>{ d[k] = rest > 0 ? d[k]*left/rest : left/others.length; });
+  d[key] = v;
+  others.forEach(k=>{ d[k] = Math.max(0, Math.round(d[k]*100)/100); });
+  const err = Math.round((T - g.items.reduce((a,[k])=>a+d[k],0))*100)/100;
+  if(err){ const big = others.reduce((m,k)=>d[k]>d[m]?k:m, others[0]); d[big] = Math.max(0, Math.round((d[big]+err)*100)/100); }
+}
+/* Refresh the inputs of one group and the formula line without rebuilding the drawer (keeps focus and slider drags). */
+function syncGroup(lg, gid, skip){
+  document.querySelectorAll(`#drawerBody .wrow[data-lg="${lg}"][data-g="${gid}"]`).forEach(row=>{
+    const k = row.dataset.k, v = DRAFT[lg][k];
+    const num = row.querySelector("input[type=number]"), rng = row.querySelector("input[type=range]");
+    if(num !== skip) num.value = fmtW(v);
+    if(rng !== skip) rng.value = v;
+    row.classList.toggle("chg", Math.abs(v - DEFW[lg][k]) >= 0.005);
+  });
+  const g = WGROUPS[lg].find(x=>x.id===gid);
+  if(g.items.length > 2){
+    const sum = groupSum(DRAFT, lg, g), T = groupTotal(g), off = Math.abs(sum - T) >= 0.005;
+    const sb = document.querySelector(`#drawerBody [data-wsum="${lg}-${gid}"]`); if(sb) sb.textContent = fmtW(sum);
+    const box = document.querySelector(`#drawerBody [data-wgrp="${lg}-${gid}"]`); if(box) box.classList.toggle("bad", off);
+    const er = document.querySelector(`#drawerBody [data-werr="${lg}-${gid}"]`);
+    if(er){ er.hidden = !off; er.textContent = off ? `These add up to ${fmtW(sum)}, but they need to add up to ${fmtW(T)} (${sum < T ? fmtW(T - sum)+" short" : fmtW(sum - T)+" over"}). Fix them before applying.` : ""; }
+  }
+  const f = document.querySelector(`#drawerBody [data-wform="${lg}"]`);
+  if(f) f.textContent = lg==="nfl" ? "EPA/play = (" + formulaText(lg, DRAFT) + ") ÷ plays" : (lg==="nba" ? "Game Score = " : "Impact = ") + formulaText(lg, DRAFT);
+  const rb = document.querySelector(`#drawerBody [data-wreset="${lg}"]`);
+  if(rb) rb.disabled = sameW(DRAFT, DEFW, lg);
+  updateApply();
+}
+function updateApply(){
+  if(!DRAFT) return;
+  const pend = Object.keys(WGROUPS).filter(lg=>!sameW(DRAFT, state.wts, lg)), bad = badGroups(DRAFT);
+  $("#wApply").disabled = !pend.length || bad.length > 0;
+  const note = $("#wNote");
+  note.classList.toggle("err", bad.length > 0);
+  note.textContent = bad.length
+    ? `Can't apply yet: ${bad.map(b=>`${LG[b.lg].name} ${b.g.name.toLowerCase()} adds up to ${fmtW(b.sum)}, not ${fmtW(b.T)}`).join("; ")}.`
+    : pend.length ? `Not applied yet: ${pend.map(lg=>LG[lg].name).join(", ")} scoring.`
+    : (Object.keys(WGROUPS).some(isCustom) ? "Your custom scoring is on." : "No scoring changes yet.");
+}
+function applyWeights(w){
+  state.wts = cloneW(w); DRAFT = cloneW(w); saveWeights(state.wts);
+  state.tier = null; state.sort = null; buildDrawer(); render();
+}
+function renderCustomBanner(){
+  const on = Object.keys(WGROUPS).filter(isCustom);
+  $("#customBanner").classList.toggle("show", on.length > 0);
+  if(on.length) $("#customTxt").textContent = `Custom scoring is on for ${on.map(lg=>LG[lg].name).join(", ")}. Scores, rankings and stars follow your weights, not the standard formulas.`;
 }
 function openDrawer(open){
   const d = $("#drawer");
@@ -1430,20 +1632,40 @@ function openDrawer(open){
   if(open) $("#drawerX").focus(); else $("#adjBtn").focus();
 }
 function wireDrawer(){
-  $("#adjBtn").onclick = ()=>openDrawer(true);
+  $("#adjBtn").onclick = ()=>{ DRAFT = cloneW(state.wts); buildDrawer(); openDrawer(true); };
   $("#drawerX").onclick = $("#scrim").onclick = ()=>openDrawer(false);
   addEventListener("keydown", e=>{ if(e.key==="Escape" && $("#drawer").classList.contains("open")) openDrawer(false); });
   $("#drawerBody").addEventListener("click", e=>{
+    const r = e.target.closest("[data-wreset]");
+    if(r){ const lg = r.dataset.wreset; DRAFT[lg] = cloneW(DEFW)[lg]; WGROUPS[lg].forEach(g=>syncGroup(lg, g.id)); return; }
     const b = e.target.closest(".dseg button"); if(!b) return;
     const k = b.parentElement.dataset.k;
     if(k==="rate") state.rate = b.dataset.v;
     state.tier = null; buildDrawer(); render();
   });
+  // sliders move live; typed numbers rebalance when you leave the box or press Enter
+  $("#drawerBody").addEventListener("input", e=>{
+    const row = e.target.closest(".wrow"); if(!row || e.target.type!=="range") return;
+    setWeight(row.dataset.lg, row.dataset.g, row.dataset.k, parseFloat(e.target.value)); syncGroup(row.dataset.lg, row.dataset.g, e.target);
+  });
   $("#drawerBody").addEventListener("change", e=>{
+    const row = e.target.closest(".wrow");
+    if(row){
+      if(e.target.type==="number"){ setWeight(row.dataset.lg, row.dataset.g, row.dataset.k, parseFloat(e.target.value)); syncGroup(row.dataset.lg, row.dataset.g); }
+      return;
+    }
     const k = e.target.dataset.k; if(!k) return;
     state[k] = e.target.checked; state.sort = null; buildDrawer(); render();
   });
-  $("#adjReset").onclick = ()=>{ Object.assign(state, {rate:DEFAULTS.rate, advNba:false, advNhl:false, tier:null, sort:null}); buildDrawer(); render(); };
+  $("#drawerBody").addEventListener("keydown", e=>{ if(e.key==="Enter" && e.target.type==="number") e.target.dispatchEvent(new Event("change", {bubbles:true})); });
+  $("#wApply").onclick = ()=>{
+    const ae = document.activeElement; if(ae && ae.type==="number") ae.dispatchEvent(new Event("change", {bubbles:true}));
+    if(badGroups(DRAFT).length){ updateApply(); return; }
+    applyWeights(DRAFT); openDrawer(false);
+    document.getElementById("ladder").scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"});
+  };
+  $("#adjReset").onclick = ()=>{ Object.assign(state, {rate:DEFAULTS.rate, advNba:false, advNhl:false, tier:null, sort:null}); applyWeights(defaultWeights()); };
+  $("#customReset").onclick = ()=>applyWeights(defaultWeights());
   $("#drawer").querySelector(".dsub a").onclick = ()=>openDrawer(false);
 }
 
@@ -1526,7 +1748,7 @@ function countUp(){
 addEventListener("resize", slidePills);
 function render(){ const now = nowMs();
   const res = isP() ? computePlayers(PDATA, SEASON, REAL.launch, now, state.w) : computeTeams(DATA, SEASON, now, state.w);
-  assignStars(res.rows); LASTRES = res;
+  assignStars(res.rows); LASTRES = res; renderCustomBanner();
   renderClock(); renderMeter(res.rows); renderBoard(res); renderTable(res);
   if(!FIRST) $("#meter").classList.add("settled");
   reveal(); slidePills(); countUp(); FIRST = false;
